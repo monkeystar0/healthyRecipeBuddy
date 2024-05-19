@@ -70,9 +70,9 @@ class UserProfileSettingUpActivity : AppCompatActivity(){
         with(sharedPreferences.edit()) {
             putString("gender", selectedGender)
             putString("name", binding.editNameText.text.toString())
-            putString("age", binding.editAgeText.text.toString())
-            putString("height", binding.editHeightText.text.toString())
-            putString("weight", binding.editWeightText.text.toString())
+            putFloat("age", binding.editAgeText.text.toString().toFloat())
+            putFloat("height", binding.editHeightText.text.toString().toFloat())
+            putFloat("weight", binding.editWeightText.text.toString().toFloat())
 
             // ... save other values (height, weight, etc.) similarly
             putBoolean("profile_complete", true)
