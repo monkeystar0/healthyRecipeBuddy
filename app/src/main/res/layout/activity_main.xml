@@ -15,6 +15,26 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:id="@+id/loadingLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:visibility="gone">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:indeterminateOnly="true"
+                android:maxWidth="250dp"
+                android:maxHeight="250dp"
+                android:minWidth="250dp"
+                android:minHeight="250dp" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
@@ -26,6 +46,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -115,7 +137,7 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/bdFatCardView"
-                        android:layout_width="50dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         app:cardBackgroundColor="#B8FF8B"
                         app:cardCornerRadius="5dp">
@@ -125,6 +147,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
+                            android:padding="3dp"
                             android:text="15"
                             android:textColor="#000000"
                             android:textSize="12sp" />
@@ -177,27 +200,22 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="0dp"
-                android:layout_height="180dp"
-                android:layout_weight="1.5"
+                android:layout_height="150dp"
+                android:layout_weight="1.3"
                 app:srcCompat="@drawable/mascot" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.3"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView14"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Buddy's review" />
 
                 <TextView
                     android:id="@+id/buddyRecommendTxt"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:ellipsize="end"
                     android:text="Recommedations"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -207,8 +225,10 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="Menu" />
+            android:text="Menu"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -223,7 +243,7 @@
                 android:orientation="vertical">
 
                 <ImageButton
-                    android:id="@+id/imageButton"
+                    android:id="@+id/profileButton"
                     android:layout_width="wrap_content"
                     android:layout_height="80dp"
                     android:layout_weight="1"
@@ -248,7 +268,7 @@
                 android:orientation="vertical">
 
                 <ImageButton
-                    android:id="@+id/imageButton2"
+                    android:id="@+id/targetButton"
                     android:layout_width="wrap_content"
                     android:layout_height="80dp"
                     android:layout_weight="1"
@@ -272,7 +292,7 @@
                 android:orientation="vertical">
 
                 <ImageButton
-                    android:id="@+id/imageButton3"
+                    android:id="@+id/foodLogButton"
                     android:layout_width="wrap_content"
                     android:layout_height="80dp"
                     android:layout_weight="1"
@@ -295,6 +315,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <LinearLayout
