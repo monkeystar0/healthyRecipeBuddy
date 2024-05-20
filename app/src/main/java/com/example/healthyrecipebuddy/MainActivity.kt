@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import app.futured.donut.DonutSection
 import com.example.healthyrecipebuddy.databinding.ActivityMainBinding
 import com.example.healthyrecipebuddy.model.UiState
 import com.example.healthyrecipebuddy.util.MeasurementTool
@@ -47,10 +48,7 @@ class MainActivity : AppCompatActivity() {
             initialSetup = true
         }
         setupVisualisation()
-        binding.targetButton.setOnClickListener {
-            val intent = Intent(this, SetTargetActivity::class.java)
-            startActivity(intent)
-        }
+        setupMenuList()
 
         lifecycleScope.launch {
             // Observe the uiState variable
@@ -78,12 +76,28 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun setupMenuList() {
+        binding.targetButton.setOnClickListener {
+            val intent = Intent(this, SetTargetActivity::class.java)
+            startActivity(intent)
+        }
+        binding.profileButton.setOnClickListener {
+            val intent = Intent(this, UserProfileEditActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
     private fun showLoadingIndicator() {
         binding.loadingLayout.visibility = View.VISIBLE
     }
 
     private fun hideLoadingIndicator() {
         binding.loadingLayout.visibility = View.GONE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupVisualisation()
     }
 
     private fun setupVisualisation() {
@@ -107,6 +121,11 @@ class MainActivity : AppCompatActivity() {
             val targetBmiValue = measurementTool.getBMI(targetWeight, (height/100))
             val targetBmiText = "%.2f".format(targetBmiValue)
             binding.bmiTargetValueText.text = targetBmiText
+            val targetBodyFatValue = measurementTool.calculateBodyFatPercentageSI(targetBmiValue, age, gender)
+            val targetBodyFatText = "%.2f".format(targetBodyFatValue)
+            val targetBodyFatColor = measurementTool.getBodyFatCategoryColor(targetBodyFatValue, gender)
+            binding.bodyFatTargetValueText.text = "$targetBodyFatText %"
+            binding.bdTargetCardView.setCardBackgroundColor(Color.parseColor(targetBodyFatColor))
         }
         //body fat setup
         val bodyFatValue = measurementTool.calculateBodyFatPercentageSI(bmiValue, age, gender)
@@ -122,6 +141,21 @@ class MainActivity : AppCompatActivity() {
             mainViewModel.sendPrompt(prompt)
             initialSetup = false
         }
+
+        val section1 = DonutSection(
+            name = "section_1",
+            color = Color.parseColor("#FB1D32"),
+            amount = 25f
+        )
+
+        val section2 = DonutSection(
+            name = "section_2",
+            color = Color.parseColor("#FFB98E"),
+            amount = 28f
+        )
+
+        binding.donutView.cap = 100f
+        binding.donutView.submitData(listOf(section1, section2))
     }
 
 }
