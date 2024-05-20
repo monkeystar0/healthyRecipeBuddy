@@ -29,6 +29,10 @@ class UserProfileSettingUpActivity : AppCompatActivity(){
                 navigateToMainScreen()
             }
         }
+
+        binding.cancelButton.setOnClickListener {
+            finish()
+        }
     }
 
     private fun validateInput(): Boolean {
@@ -70,7 +74,7 @@ class UserProfileSettingUpActivity : AppCompatActivity(){
         with(sharedPreferences.edit()) {
             putString("gender", selectedGender)
             putString("name", binding.editNameText.text.toString())
-            putFloat("age", binding.editAgeText.text.toString().toFloat())
+            putInt("age", binding.editAgeText.text.toString().toInt())
             putFloat("height", binding.editHeightText.text.toString().toFloat())
             putFloat("weight", binding.editWeightText.text.toString().toFloat())
 

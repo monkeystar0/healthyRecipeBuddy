@@ -1,6 +1,7 @@
 package com.example.healthyrecipebuddy
 
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -32,13 +33,33 @@ class MainActivity : AppCompatActivity() {
     private fun setupVisualisation() {
         // Set up the visualisation here
         sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
-        val weight = sharedPreferences.getString("weight", "0")?.toFloat() ?: 0f
-        val height = sharedPreferences.getString("height", "0")?.toFloat() ?: 0f
-        val age = sharedPreferences.getString("age", "0")?.toInt() ?: 0
-        val bmiValue = measurementTool.getBMI(weight, height)
+        val weight = sharedPreferences.getFloat("weight", 0f)
+        val targetWeight = sharedPreferences.getFloat("target_weight", 0f)
+        val height = sharedPreferences.getFloat("height", 0f)
+        val age = sharedPreferences.getInt("age", 0)
+        val gender = sharedPreferences.getString("gender", "")?:"-"
+        //BMI setup
+        val bmiValue = measurementTool.getBMI(weight, (height/100))
         val bmiText = "%.2f".format(bmiValue)
         binding.bmiValueText.text = bmiText
-
+        val bmiColor = measurementTool.getBMIClassificationColor(bmiValue.toDouble())
+        binding.bmiCardView.setCardBackgroundColor(Color.parseColor(bmiColor))
+        if(targetWeight == 0f){
+            binding.bmiTargetValueText.text = "-"
+            binding.bodyFatTargetValueText.text = "-"
+        }else{
+            val targetBmiValue = measurementTool.getBMI(targetWeight, (height/100))
+            val targetBmiText = "%.2f".format(targetBmiValue)
+            binding.bmiTargetValueText.text = targetBmiText
+        }
+        //body fat setup
+        val bodyFatValue = measurementTool.calculateBodyFatPercentageSI(bmiValue, age, gender)
+        val bodyFatText = "%.2f".format(bodyFatValue)
+        binding.bodyFatValueText.text = "$bodyFatText %"
+        val bodyFatCategory = measurementTool.getBodyFatCategoryText(bodyFatValue, gender)
+        binding.bodyFatCatagoryText.text = bodyFatCategory
+        val bodyFatColor = measurementTool.getBodyFatCategoryColor(bodyFatValue, gender)
+        binding.bdFatCardView.setCardBackgroundColor(Color.parseColor(bodyFatColor))
     }
 
 }
