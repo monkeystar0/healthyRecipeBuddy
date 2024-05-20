@@ -1,24 +1,37 @@
 package com.example.healthyrecipebuddy
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.healthyrecipebuddy.databinding.ActivityMainBinding
-import com.example.healthyrecipebuddy.databinding.ActivityUserProfileSettingUpBinding
+import com.example.healthyrecipebuddy.model.UiState
 import com.example.healthyrecipebuddy.util.MeasurementTool
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var binding: ActivityMainBinding
     private lateinit var measurementTool: MeasurementTool
+    private lateinit var mainViewModel: MainViewModel
+    private lateinit var uiState: StateFlow<UiState>
+    private var initialSetup = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        mainViewModel = MainViewModel(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         measurementTool = MeasurementTool()
@@ -28,8 +41,51 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        uiState = mainViewModel.uiState
+        if (savedInstanceState == null) {
+            // Call the API here
+            initialSetup = true
+        }
         setupVisualisation()
+        binding.targetButton.setOnClickListener {
+            val intent = Intent(this, SetTargetActivity::class.java)
+            startActivity(intent)
+        }
+
+        lifecycleScope.launch {
+            // Observe the uiState variable
+            mainViewModel.uiState.collectLatest { uiState ->
+                when (uiState) {
+                    is UiState.Loading -> {
+                        showLoadingIndicator()
+                    }
+                    is UiState.Initial -> {
+                        // Do nothing
+                    }
+                    is UiState.Success -> {
+                        // Display the generated text
+                        binding.buddyRecommendTxt.text = uiState.response
+                        hideLoadingIndicator()
+                    }
+                    is UiState.Error -> {
+                        // Show an error message
+                        Toast.makeText(this@MainActivity, uiState.error, Toast.LENGTH_SHORT).show()
+                        hideLoadingIndicator()
+                    }
+                }
+            }
+        }
+
     }
+
+    private fun showLoadingIndicator() {
+        binding.loadingLayout.visibility = View.VISIBLE
+    }
+
+    private fun hideLoadingIndicator() {
+        binding.loadingLayout.visibility = View.GONE
+    }
+
     private fun setupVisualisation() {
         // Set up the visualisation here
         sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
@@ -60,6 +116,12 @@ class MainActivity : AppCompatActivity() {
         binding.bodyFatCatagoryText.text = bodyFatCategory
         val bodyFatColor = measurementTool.getBodyFatCategoryColor(bodyFatValue, gender)
         binding.bdFatCardView.setCardBackgroundColor(Color.parseColor(bodyFatColor))
+
+        val prompt = "provide the friendly greeting message with emoticons and a briefly recommendation for healthy eating based on the BMI and body fat percentage of the user's health from the following information: gender=$gender, age= $age, bmi= $bmiValue, bodyFat= $bodyFatValue"
+        if(initialSetup){
+            mainViewModel.sendPrompt(prompt)
+            initialSetup = false
+        }
     }
 
 }
