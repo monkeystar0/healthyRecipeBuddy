@@ -21,13 +21,24 @@ class SetTargetActivity: AppCompatActivity()  {
         measurementTool = MeasurementTool()
 
         sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
-        binding.targetBMIText.text = "-"
-        binding.targetBodyFatText.text = "- %"
+
+        val targetWeight = sharedPreferences.getFloat("target_weight", 0f)
+        binding.editTargetWeight.setText(targetWeight.toString())
+        if(targetWeight > 0){
+            calculateTarget()
+        }else{
+            binding.targetBMIText.text = "-"
+            binding.targetBodyFatText.text = "- %"
+        }
+
         binding.saveButton.setOnClickListener {
             if(validateInput()){
                 saveTarget()
                 finish()
             }
+        }
+        binding.cancelButton.setOnClickListener {
+            finish()
         }
 
         binding.editTargetWeight.addTextChangedListener(object : TextWatcher {

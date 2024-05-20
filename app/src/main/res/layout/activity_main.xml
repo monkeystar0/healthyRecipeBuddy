@@ -132,7 +132,7 @@
                         android:id="@+id/textView12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Body Fat percentage"
+                        android:text="% Body Fat"
                         android:textSize="12sp" />
 
                     <androidx.cardview.widget.CardView
@@ -387,6 +387,46 @@
                     android:text="Saved Recipe" />
             </LinearLayout>
 
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Calories a day: 2000 cal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/donut_view"
+                    app:layout_constraintStart_toStartOf="@+id/donut_view"
+                    app:layout_constraintTop_toTopOf="@+id/donut_view" />
+
+                <app.futured.donut.DonutProgressView
+                    android:id="@+id/donut_view"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:layout_marginStart="66dp"
+                    android:layout_marginEnd="66dp"
+                    app:donut_animationDuration="1500"
+                    app:donut_bgLineColor="#FFB667"
+                    app:donut_gapAngle="270"
+                    app:donut_gapWidth="10"
+                    app:donut_strokeWidth="13dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
