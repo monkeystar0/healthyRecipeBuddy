@@ -2,14 +2,20 @@ package com.example.healthyrecipebuddy.util
 
 class MeasurementTool {
 
-    public val SEVERELY_THIN = 1
-    public val MODERATELY_THIN = 2
-    public val MILDLY_THIN = 3
-    public val NORMAL = 4
-    public val OVERWEIGHT = 5
-    public val OBESE_I = 6
-    public val OBESE_II = 7
-    public val OBESE_III = 8
+    val SEVERELY_THIN = 1
+    val MODERATELY_THIN = 2
+    val MILDLY_THIN = 3
+    val NORMAL = 4
+    val OVERWEIGHT = 5
+    val OBESE_I = 6
+    val OBESE_II = 7
+    val OBESE_III = 8
+
+    val SEDENTARY = 1
+    val LIGHTLY_ACTIVE = 2
+    val MODERATELY_ACTIVE = 3
+    val VERY_ACTIVE = 4
+    val EXTRA_ACTIVE = 5
 
     fun getBMI(weight: Float, height: Float): Float{
         val bmi = weight / (height * height)
@@ -61,18 +67,18 @@ class MeasurementTool {
         val bodyFatPercentageValue = bodyFatPercentage / 100
         return when (gender) {
             "Female" -> when (bodyFatPercentageValue) {
-                in 0.10f..0.13f -> "#FFFA3535"
-                in 0.14f..0.20f -> "#FFEFFA63"
-                in 0.21f..0.24f -> "#B8FF8B"
-                in 0.25f..0.31f -> "#B8FF8B"
+                in 0.10f..0.1399f -> "#FFFA3535"
+                in 0.14f..0.2099f -> "#FFEFFA63"
+                in 0.21f..0.2499f -> "#B8FF8B35"
+                in 0.25f..0.3199f -> "#B8FF8B35"
                 in 0.32f..1.0f -> "#FFFA3535"
                 else -> "Unknown"
             }
             "Male" -> when (bodyFatPercentageValue) {
-                in 0.02f..0.05f -> "#FFFA3535"
-                in 0.06f..0.13f -> "#FFEFFA63"
-                in 0.14f..0.17f -> "#B8FF8B"
-                in 0.18f..0.24f -> "#B8FF8B"
+                in 0.02f..0.0599f -> "#FFFA3535"
+                in 0.06f..0.1399f -> "#FFEFFA63"
+                in 0.14f..0.1799f -> "#B8FF8B35"
+                in 0.18f..0.2499f -> "#B8FF8B35"
                 in 0.25f..1.0f -> "#FFFA3535"
                 else -> "Unknown"
             }
@@ -84,23 +90,43 @@ class MeasurementTool {
         val bodyFatPercentageValue = bodyFatPercentage / 100
         return when (gender) {
             "Female" -> when (bodyFatPercentageValue) {
-                in 0.10f..0.13f -> "Essential fat"
-                in 0.14f..0.20f -> "Athletes"
-                in 0.21f..0.24f -> "Fitness"
-                in 0.25f..0.31f -> "Average"
+                in 0.10f..0.1399f -> "Essential fat"
+                in 0.14f..0.2099f -> "Athletes"
+                in 0.21f..0.2499f -> "Fitness"
+                in 0.25f..0.3199f -> "Average"
                 in 0.32f..1.0f -> "Obese"
                 else -> "Unknown"
             }
             "Male" -> when (bodyFatPercentageValue) {
-                in 0.02f..0.05f -> "Essential fat"
-                in 0.06f..0.13f -> "Athletes"
-                in 0.14f..0.17f -> "Fitness"
-                in 0.18f..0.24f -> "Average"
+                in 0.02f..0.0599f -> "Essential fat"
+                in 0.06f..0.1399f -> "Athletes"
+                in 0.14f..0.1799f -> "Fitness"
+                in 0.18f..0.2499f -> "Average"
                 in 0.25f..1.0f -> "Obese"
                 else -> "Unknown"
             }
             else -> throw IllegalArgumentException("Invalid gender provided.")
         }
     }
+
+    fun calculateCaloriesNeeded(weightKg: Float, heightCm: Float, ageYears: Int, isMale: Boolean, activityLevel: Int): Double {
+        val bmr: Double = if (isMale) {
+            66.47 + (13.75 * weightKg) + (5.003 * heightCm) - (6.755 * ageYears)
+        } else {
+            655.1 + (9.563 * weightKg) + (1.85 * heightCm) - (4.676 * ageYears)
+        }
+
+        return when (activityLevel) {
+            SEDENTARY -> bmr * 1.2
+            LIGHTLY_ACTIVE -> bmr * 1.375
+            MODERATELY_ACTIVE -> bmr * 1.55
+            VERY_ACTIVE -> bmr * 1.725
+            EXTRA_ACTIVE -> bmr * 1.9
+            else -> {
+                throw IllegalArgumentException("Invalid activity level provided.")
+            }
+        }
+    }
+
 
 }

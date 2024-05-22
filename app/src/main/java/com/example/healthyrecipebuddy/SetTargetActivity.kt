@@ -23,6 +23,17 @@ class SetTargetActivity: AppCompatActivity()  {
         sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
 
         val targetWeight = sharedPreferences.getFloat("target_weight", 0f)
+        val targetExercise = sharedPreferences.getInt("target_exercise", 1)
+
+        when (targetExercise) {
+            1 -> binding.littleExerciseRadioButton.isChecked = true
+            2 -> binding.lightExerciseRadioButton.isChecked = true
+            3 -> binding.moderateExerciseRadioButton.isChecked = true
+            4 -> binding.activeExerciseRadioButton.isChecked = true
+            5 -> binding.extraExerciseRadioButton.isChecked = true
+            else ->  binding.littleExerciseRadioButton.isChecked = true // Handle the case where no option is selected
+        }
+
         binding.editTargetWeight.setText(targetWeight.toString())
         if(targetWeight > 0){
             calculateTarget()
@@ -68,6 +79,7 @@ class SetTargetActivity: AppCompatActivity()  {
             binding.targetBMIText.text = "%.2f".format(targetBMI)
             val targetBodyFatText = "%.2f".format(targetBodyFat)
             binding.targetBodyFatText.text = "$targetBodyFatText %"
+
         }
     }
     private fun validateInput(): Boolean {
@@ -77,12 +89,21 @@ class SetTargetActivity: AppCompatActivity()  {
             return false
         }
         return true
-
     }
 
     private fun saveTarget(){
         val targetWeight = binding.editTargetWeight.text.toString().toFloat()
+        val selectedExerciseId = binding.targetExerciseRadioGroup.checkedRadioButtonId
+        val selectedExercise = when (selectedExerciseId) {
+            R.id.littleExerciseRadioButton -> 1
+            R.id.lightExerciseRadioButton -> 2
+            R.id.moderateExerciseRadioButton -> 3
+            R.id.activeExerciseRadioButton -> 4
+            R.id.extraExerciseRadioButton -> 5
+            else -> 1 // Handle the case where no option is selected
+        }
         sharedPreferences.edit().putFloat("target_weight", targetWeight).apply()
+        sharedPreferences.edit().putInt("target_exercise", selectedExercise).apply()
 
     }
 }

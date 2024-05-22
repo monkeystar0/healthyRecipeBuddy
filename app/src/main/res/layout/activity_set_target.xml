@@ -102,7 +102,51 @@
                         android:text="15.8 %"
                         android:textStyle="bold" />
                 </LinearLayout>
+                <TextView
+                    android:id="@+id/targetExerciseText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Target exercise"
+                    android:layout_marginTop="15dp"
+                    android:textSize="16sp"/>
+                <RadioGroup
+                    android:id="@+id/targetExerciseRadioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
+                    <RadioButton
+                        android:id="@+id/littleExerciseRadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Little/no exercise"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/lightExerciseRadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Light exercise" />
+                    <RadioButton
+                        android:id="@+id/moderateExerciseRadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Moderate exercise (3-5 days/wk)" />
+                    <RadioButton
+                        android:id="@+id/activeExerciseRadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Very active (6-7 days/wk)" />
+
+
+
+                    <RadioButton
+                        android:id="@+id/extraExerciseRadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Extra active (very active &amp; physical job)" />
+
+                </RadioGroup>
             </LinearLayout>
         </LinearLayout>
 
