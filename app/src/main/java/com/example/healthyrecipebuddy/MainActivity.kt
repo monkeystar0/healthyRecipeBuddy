@@ -108,6 +108,7 @@ class MainActivity : AppCompatActivity() {
         val height = sharedPreferences.getFloat("height", 0f)
         val age = sharedPreferences.getInt("age", 0)
         val gender = sharedPreferences.getString("gender", "")?:"-"
+        val activityLevel = sharedPreferences.getInt("target_exercise", 1)
         //BMI setup
         val bmiValue = measurementTool.getBMI(weight, (height/100))
         val bmiText = "%.2f".format(bmiValue)
@@ -135,6 +136,10 @@ class MainActivity : AppCompatActivity() {
         binding.bodyFatCatagoryText.text = bodyFatCategory
         val bodyFatColor = measurementTool.getBodyFatCategoryColor(bodyFatValue, gender)
         binding.bdFatCardView.setCardBackgroundColor(Color.parseColor(bodyFatColor))
+        //calories setup
+        val caloriesNeeded = measurementTool.calculateCaloriesNeeded(weight, height, age, gender == "Male", activityLevel)
+        val caloriesNeededText = "%.2f".format(caloriesNeeded)
+        binding.caloriesNeedText.text = "Calories needed: $caloriesNeededText cal"
 
         val prompt = "provide the friendly greeting message with emoticons and a briefly recommendation for healthy eating based on the BMI and body fat percentage of the user's health from the following information: gender=$gender, age= $age, bmi= $bmiValue, bodyFat= $bodyFatValue"
         if(initialSetup){
@@ -148,14 +153,14 @@ class MainActivity : AppCompatActivity() {
             amount = 25f
         )
 
-        val section2 = DonutSection(
-            name = "section_2",
-            color = Color.parseColor("#FFB98E"),
-            amount = 28f
-        )
+//        val section2 = DonutSection(
+//            name = "section_2",
+//            color = Color.parseColor("#FFB98E"),
+//            amount = 28f
+//        )
 
         binding.donutView.cap = 100f
-        binding.donutView.submitData(listOf(section1, section2))
+        binding.donutView.submitData(listOf(section1))
     }
 
 }
