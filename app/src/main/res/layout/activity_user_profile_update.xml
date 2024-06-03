@@ -199,6 +199,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
+                android:backgroundTint="#E70404"
                 android:text="Cancel"
                 android:textColorHighlight="#ED5A5A"
                 android:textColorHint="#ED5A5A"
