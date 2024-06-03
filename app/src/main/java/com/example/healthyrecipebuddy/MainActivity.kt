@@ -85,6 +85,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, UserProfileEditActivity::class.java)
             startActivity(intent)
         }
+        binding.foodLogButton.setOnClickListener{
+            val intent = Intent(this, FoodLogActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun showLoadingIndicator() {
@@ -149,8 +153,8 @@ class MainActivity : AppCompatActivity() {
 
         val section1 = DonutSection(
             name = "section_1",
-            color = Color.parseColor("#FB1D32"),
-            amount = 25f
+            color = Color.parseColor("#51BF23"),
+            amount = 24f
         )
 
 //        val section2 = DonutSection(

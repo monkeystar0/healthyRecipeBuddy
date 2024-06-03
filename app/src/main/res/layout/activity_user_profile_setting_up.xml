@@ -67,8 +67,8 @@
                 android:layout_height="48dp"
                 android:layout_weight="4"
                 android:ems="10"
-                android:inputType="text"
-                android:text="Name" />
+                android:hint="name"
+                android:inputType="text" />
         </LinearLayout>
 
         <LinearLayout
@@ -129,8 +129,8 @@
                 android:layout_height="48dp"
                 android:layout_weight="4"
                 android:ems="10"
-                android:inputType="number"
-                android:text="0" />
+                android:hint="0"
+                android:inputType="number" />
 
             <TextView
                 android:id="@+id/textView6"
@@ -159,8 +159,8 @@
                 android:layout_height="48dp"
                 android:layout_weight="4"
                 android:ems="10"
-                android:inputType="number"
-                android:text="0" />
+                android:hint="0"
+                android:inputType="number" />
 
             <TextView
                 android:id="@+id/textView7"
@@ -189,8 +189,8 @@
                 android:layout_height="48dp"
                 android:layout_weight="4"
                 android:ems="10"
-                android:inputType="number"
-                android:text="0" />
+                android:hint="0"
+                android:inputType="number" />
 
             <TextView
                 android:id="@+id/textView11"
@@ -222,6 +222,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
+                android:backgroundTint="#E70404"
                 android:text="Cancel"
                 android:textColorHighlight="#ED5A5A"
                 android:textColorHint="#ED5A5A"
