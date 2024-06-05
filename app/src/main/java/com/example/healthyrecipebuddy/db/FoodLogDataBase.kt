@@ -23,9 +23,6 @@ interface FoodLogDao {
     @Query("SELECT * FROM food_log")
     fun getAllFoodLogs(): LiveData<List<FoodLog>>
 
-//    @Query("SELECT * FROM food_log WHERE date = :date")
-//    fun getFoodLogsByDate(date: Date): LiveData<List<FoodLog>>
-
     @Query("SELECT * FROM food_log WHERE date = :timestamp")
     fun getFoodLogsByDate(timestamp: Date): LiveData<List<FoodLog>>
 

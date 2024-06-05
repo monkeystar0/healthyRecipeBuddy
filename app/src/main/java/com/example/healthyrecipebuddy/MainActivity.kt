@@ -100,6 +100,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, FoodLogActivity::class.java)
             startActivity(intent)
         }
+        binding.recommendedRecipeButton.setOnClickListener {
+            val intent = Intent(this, RecommendedRecipeActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun showLoadingIndicator() {
