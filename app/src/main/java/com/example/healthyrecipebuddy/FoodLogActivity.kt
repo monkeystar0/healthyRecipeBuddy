@@ -66,12 +66,12 @@ class FoodLogActivity: AppCompatActivity(){
     private fun initializeUI() {
         val currentDate = LocalDate.now()
         val formatter = SimpleDateFormat("yyyy-MM-dd")
-        val sqlDate = formatter.parse(currentDate.toString())?.let { java.sql.Date(it.time) }
+        val sqlDate = formatter.parse(currentDate.toString())?.let { Date(it.time) }
 
         val startTime = LocalTime.MIN
-        val sqlStartTime = java.sql.Time(startTime.toNanoOfDay())
+        val sqlStartTime = Time(startTime.toNanoOfDay())
         val endTime = LocalTime.MAX
-        val sqlEndTime = java.sql.Time(endTime.toNanoOfDay())
+        val sqlEndTime = Time(endTime.toNanoOfDay())
         binding.FoodTypeOptions.adapter = ArrayAdapter( this, android.R.layout.simple_spinner_item, listOf("Meal", "Dessert", "Drink"))
         if (sqlDate != null) {
             foodLogDatabase.foodLogDao().getFoodLogsBetweenTimes(sqlDate, sqlStartTime, sqlEndTime).observe(this) { foodLogs ->
