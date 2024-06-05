@@ -10,7 +10,6 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.healthyrecipebuddy.entity.FoodLog
 import com.example.healthyrecipebuddy.util.DateConverter
-import java.io.Serializable
 import java.sql.Date
 import java.sql.Time
 
