@@ -1,9 +1,8 @@
 package com.example.healthyrecipebuddy
 
-import android.os.Build
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,9 +22,6 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalTime
 
-
-import java.util.Calendar
-import java.util.GregorianCalendar
 
 class FoodLogActivity: AppCompatActivity(){
     private lateinit var binding: ActivityFoodLogBinding
@@ -59,9 +55,14 @@ class FoodLogActivity: AppCompatActivity(){
         binding.cancelBtn.setOnClickListener {
             finish()
         }
+
+        binding.historyLayout.setOnClickListener {
+            val intent = Intent(this, FoodLogHistoryActivity::class.java)
+            startActivity(intent)
+        }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
     private fun initializeUI() {
         val currentDate = LocalDate.now()
         val formatter = SimpleDateFormat("yyyy-MM-dd")
@@ -73,13 +74,15 @@ class FoodLogActivity: AppCompatActivity(){
         val sqlEndTime = java.sql.Time(endTime.toNanoOfDay())
         binding.FoodTypeOptions.adapter = ArrayAdapter( this, android.R.layout.simple_spinner_item, listOf("Meal", "Dessert", "Drink"))
         if (sqlDate != null) {
-            println(sqlDate.time.toString() + sqlStartTime.toString() + sqlEndTime.toString())
             foodLogDatabase.foodLogDao().getFoodLogsBetweenTimes(sqlDate, sqlStartTime, sqlEndTime).observe(this) { foodLogs ->
                 // Update the RecyclerView with the new data
                 adapter.submitList(foodLogs)
+                foodLogs.sumOf { item -> item.calories.toDouble() }.also { totalCalories -> binding.totalCalText.text = "$totalCalories cal" }
             }
         }
+
     }
+
 
     private fun validateInput(): Boolean {
         // Validate name (not empty)
@@ -96,9 +99,13 @@ class FoodLogActivity: AppCompatActivity(){
         val calories = binding.editCaloriesText.text.toString().toFloat()
         val foodType = binding.FoodTypeOptions.selectedItem.toString()
         // Save the menu log to the database
-        val date = Date(System.currentTimeMillis())
+
+        val currentDate = LocalDate.now()
+        val formatter = SimpleDateFormat("yyyy-MM-dd")
+        val todayDate = formatter.parse(currentDate.toString())
+        val sqlDate = Date(todayDate?.time ?: java.util.Date().time)
         val time = Time(System.currentTimeMillis())
-        val foodLog = FoodLog(foodName = menuName, calories = calories, date = date, time = time, foodType = foodType, description = description)
+        val foodLog = FoodLog(foodName = menuName, calories = calories, date = sqlDate, time = time, foodType = foodType, description = description)
         CoroutineScope(Dispatchers.IO).launch {
 
             foodLogDatabase.foodLogDao().insertFoodLog(foodLog)
@@ -107,7 +114,6 @@ class FoodLogActivity: AppCompatActivity(){
                 CustomDialogFragment().show(parentFragmentManager, "food_log_inserted_dialog")
             }
         }
-       // foodLogDatabase.foodLogDao().insertFoodLog(FoodLog(menuName, description, calories, foodType))
     }
 
     private fun clearInputFields() {

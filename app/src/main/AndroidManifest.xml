@@ -25,6 +25,7 @@
         <activity android:name="com.example.healthyrecipebuddy.SetTargetActivity" />
         <activity android:name="com.example.healthyrecipebuddy.UserProfileEditActivity" />
         <activity android:name="com.example.healthyrecipebuddy.FoodLogActivity" />
+        <activity android:name="com.example.healthyrecipebuddy.FoodLogHistoryActivity" />
     </application>
 
 </manifest>

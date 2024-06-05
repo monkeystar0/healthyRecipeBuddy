@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -12,13 +13,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.room.Room
 import app.futured.donut.DonutSection
 import com.example.healthyrecipebuddy.databinding.ActivityMainBinding
+import com.example.healthyrecipebuddy.db.FoodLogDatabase
 import com.example.healthyrecipebuddy.model.UiState
 import com.example.healthyrecipebuddy.util.MeasurementTool
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalTime
 
 class MainActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
@@ -27,6 +33,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainViewModel: MainViewModel
     private lateinit var uiState: StateFlow<UiState>
     private var initialSetup = false
+    private val foodLogDatabase: FoodLogDatabase by lazy {
+        Room.databaseBuilder(
+            applicationContext,
+            FoodLogDatabase::class.java,
+            "food_log_database"
+        ).build()
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -151,20 +164,33 @@ class MainActivity : AppCompatActivity() {
             initialSetup = false
         }
 
-        val section1 = DonutSection(
-            name = "section_1",
-            color = Color.parseColor("#51BF23"),
-            amount = 24f
-        )
+        val currentDate = LocalDate.now()
+        val formatter = SimpleDateFormat("yyyy-MM-dd")
+        val sqlDate = formatter.parse(currentDate.toString())?.let { java.sql.Date(it.time) }
 
-//        val section2 = DonutSection(
-//            name = "section_2",
-//            color = Color.parseColor("#FFB98E"),
-//            amount = 28f
-//        )
+        val startTime = LocalTime.MIN
+        val sqlStartTime = java.sql.Time(startTime.toNanoOfDay())
+        val endTime = LocalTime.MAX
+        val sqlEndTime = java.sql.Time(endTime.toNanoOfDay())
+        binding.donutView.cap = caloriesNeeded.toFloat()
 
-        binding.donutView.cap = 100f
-        binding.donutView.submitData(listOf(section1))
+        if (sqlDate != null) {
+            foodLogDatabase.foodLogDao().getFoodLogsBetweenTimes(sqlDate, sqlStartTime, sqlEndTime).observe(this) { foodLogs ->
+                // Update the RecyclerView with the new data
+                foodLogs.sumOf { item -> item.calories.toDouble() }.also { totalCalories ->
+                    val section1 = DonutSection(
+                        name = "intake calories",
+                        color = Color.parseColor("#51BF23"),
+                        amount = totalCalories.toFloat()
+                    )
+                    binding.caloriesNeedText.text = "Calories needed: $caloriesNeededText cal\n Today: $totalCalories cal"
+                    binding.donutView.submitData(listOf(section1))
+                    binding.donutView.invalidate()
+                }
+            }
+        }
+
+
     }
 
 }
