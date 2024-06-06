@@ -3,12 +3,33 @@ package com.example.healthyrecipebuddy
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import androidx.room.Room
 import com.example.healthyrecipebuddy.databinding.ActivityUserProfileUpdateBinding
+import com.example.healthyrecipebuddy.db.FoodLogDatabase
+import com.example.healthyrecipebuddy.db.SavedRecipeDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class UserProfileEditActivity: AppCompatActivity()  {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var binding: ActivityUserProfileUpdateBinding
+    private val foodLogDatabase: FoodLogDatabase by lazy {
+        Room.databaseBuilder(
+            applicationContext,
+            FoodLogDatabase::class.java,
+            "food_log_database"
+        ).build()
+    }
+
+    private val savedRecipeDatabase: SavedRecipeDatabase by lazy {
+        Room.databaseBuilder(
+            applicationContext,
+            SavedRecipeDatabase::class.java,
+            "saved_recipe_database").build()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,10 +43,33 @@ class UserProfileEditActivity: AppCompatActivity()  {
                 finish()
             }
         }
-
         binding.cancelButton.setOnClickListener {
             finish()
         }
+        binding.resetButton.setOnClickListener {
+            showResetConfirmationDialog()
+        }
+    }
+
+    private fun showResetConfirmationDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Reset Confirmation")
+            .setMessage("Do you confirm to reset all user information?")
+            .setPositiveButton("OK") { _, _ ->
+                resetUserInformation()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun resetUserInformation() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            foodLogDatabase.foodLogDao().deleteAllFoodLogs()
+            savedRecipeDatabase.savedRecipeDao().deleteAllSavedRecipes()
+        }
+        sharedPreferences.edit().clear().apply()
+        Toast.makeText(this, "User information has been reset!", Toast.LENGTH_SHORT).show()
+        finish()
     }
 
     private fun initializeUI() {

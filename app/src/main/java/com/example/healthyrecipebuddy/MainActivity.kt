@@ -120,7 +120,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        setupVisualisation()
+        if (!sharedPreferences.getBoolean("profile_complete", false)) {
+            navigateToUserProfileSettingUp()
+        }else{
+            setupVisualisation()
+        }
+    }
+
+    private fun navigateToUserProfileSettingUp() {
+        startActivity(Intent(this, UserProfileSettingUpActivity::class.java))
+        finish()
     }
 
     private fun setupVisualisation() {

@@ -20,6 +20,9 @@ interface SavedRecipeDao {
     @Query("SELECT * FROM saved_recipe")
     fun getAllRecipes(): LiveData<List<SavedRecipe>>
 
+    @Query("DELETE FROM saved_recipe")
+    suspend fun deleteAllSavedRecipes()
+
 }
 
 @Database(entities = [SavedRecipe::class], version = 1)

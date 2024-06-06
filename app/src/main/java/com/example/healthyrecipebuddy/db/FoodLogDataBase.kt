@@ -34,6 +34,9 @@ interface FoodLogDao {
 
     @Query( "SELECT SUM(calories) FROM food_log WHERE date >= :date AND time BETWEEN :startTime AND :endTime")
     fun getTotalCalories(date: Date, startTime: Time, endTime: Time): LiveData<Float>
+
+    @Query("DELETE FROM food_log")
+    suspend fun deleteAllFoodLogs()
 }
 
 // Define the FoodLogDatabase class
