@@ -85,11 +85,13 @@ class RecommendedRecipeActivity: AppCompatActivity() {
     private fun showLoadingIndicator() {
         binding.loadingProgress.visibility = View.VISIBLE
         binding.recipeText.visibility = View.GONE
+        binding.layoutButton.visibility = View.GONE
     }
 
     private fun hideLoadingIndicator() {
         binding.loadingProgress.visibility = View.GONE
         binding.recipeText.visibility = View.VISIBLE
+        binding.layoutButton.visibility = View.VISIBLE
     }
 
     private fun setupUI() {
@@ -117,17 +119,20 @@ class RecommendedRecipeActivity: AppCompatActivity() {
         val caloriesNeeded = measurementTool.calculateCaloriesNeeded(weight, height, age, gender == "Male", activityLevel)
         val caloriesNeededText = "%.2f".format(caloriesNeeded)
         var prompt = ""
+        var eatenFoods = ""
+        var  totalCalories = 0.0
         if (sqlDate != null) {
             foodLogDatabase.foodLogDao().getFoodLogsBetweenTimes(sqlDate, sqlStartTime, sqlEndTime).observe(this) { foodLogs ->
-                val eatenFoods = foodLogs.joinToString(", ") { it.foodName }
-                val  totalCalories = foodLogs.sumOf { item -> item.calories.toDouble() }
+                eatenFoods = foodLogs.joinToString(", ") { it.foodName }
+                totalCalories = foodLogs.sumOf { item -> item.calories.toDouble() }
 
-                prompt = "provide the healthy recipe for meal based on  the user's information, the BMI and body fat percentage from the following information: gender=$gender, age= $age, bmi= $bmiValue, bodyFat= $bodyFatValue . And the recommended recipe is based on the food consumption as the following: total intake calories today: $totalCalories cal, target calories: $caloriesNeededText cal, menu of eaten food: $eatenFoods. Please return in format: (briefly explain why recommend this recipe)<new line> Menu name: (name of recipe)<new line> ingredients: (list of ingredients)<new line> steps: (list of steps)<new line> Tips: (list of tips), and using emoticons for friendly messages."
+                prompt = "provide the healthy recipe for meal based on  the user's information, the BMI and body fat percentage from the following information: gender=$gender, age= $age, bmi= $bmiValue, bodyFat= $bodyFatValue . And the recommended recipe is based on the food consumption as the following: menu of eaten food: $eatenFoods. Total intake calories today: $totalCalories cal, target calories: $caloriesNeededText Cal. Please return in format: (briefly explain why recommend this recipe)<new line> Menu name: (name of recipe)<new line> ingredients: (list of ingredients)<new line> steps: (list of steps)<new line> Tips: (list of tips), and using emoticons for friendly messages."
                 mainViewModel.sendPrompt(prompt)
             }
         }
 
         binding.regenBtn.setOnClickListener {
+            prompt = "provide the healthy recipe for a meal based on  the user's information, the BMI and body fat percentage from the following information: gender=$gender, age= $age, bmi= $bmiValue, bodyFat= $bodyFatValue . And the recommended recipe is based on the food consumption as the following: menu of eaten food: $eatenFoods. Total intake calories today: $totalCalories cal, target calories: $caloriesNeededText Cal. Please return in format: (briefly explain why recommend this recipe)<new line> Menu name: (name of recipe)<new line> ingredients: (list of ingredients)<new line> steps: (list of steps)<new line> Tips: (list of tips), using emoticons for friendly messages and make sure that the new recipe won't be the same with the previous recipe."
             mainViewModel.sendPrompt(prompt)
         }
 
@@ -146,7 +151,6 @@ class RecommendedRecipeActivity: AppCompatActivity() {
             }
             dialog.show(supportFragmentManager, "recipeNameDialog")
         }
-
 
     }
 
