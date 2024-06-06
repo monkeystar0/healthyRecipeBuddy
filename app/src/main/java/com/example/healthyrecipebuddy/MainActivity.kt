@@ -108,6 +108,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SavedRecipeActivity::class.java)
             startActivity(intent)
         }
+        binding.createRecipeButton.setOnClickListener {
+            val intent = Intent(this, CreateRecipeActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun showLoadingIndicator() {
