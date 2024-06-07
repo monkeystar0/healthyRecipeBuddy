@@ -1,15 +1,13 @@
 package com.example.healthyrecipebuddy.adapter
 
-import android.app.Activity
+
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.healthyrecipebuddy.databinding.SavedRecipeItemBinding
-import com.example.healthyrecipebuddy.entity.FoodLog
 import com.example.healthyrecipebuddy.entity.SavedRecipe
 import com.example.healthyrecipebuddy.util.RecipeDetailsDialogFragment
 
