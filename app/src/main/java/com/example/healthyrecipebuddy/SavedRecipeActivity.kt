@@ -1,20 +1,16 @@
 package com.example.healthyrecipebuddy
 
-import android.graphics.Canvas
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.example.healthyrecipebuddy.adapter.SavedRecipeAdapter
 import com.example.healthyrecipebuddy.databinding.ActivitySavedRecipeBinding
 import com.example.healthyrecipebuddy.db.SavedRecipeDatabase
 import com.example.healthyrecipebuddy.entity.SavedRecipe
-import com.example.healthyrecipebuddy.util.ButtonsState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -24,8 +20,7 @@ class SavedRecipeActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySavedRecipeBinding
     private lateinit var adapter: SavedRecipeAdapter
     private lateinit var parentFragmentManager: FragmentManager
-    private val buttonShowedState = ButtonsState.GONE
-    private var swipeBack = false
+
 
 
     private val savedRecipeDatabase: SavedRecipeDatabase by lazy {
