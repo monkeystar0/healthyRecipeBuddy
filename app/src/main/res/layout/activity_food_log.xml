@@ -56,7 +56,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
+                android:layout_weight="1.8"
                 android:text="Menu's name"
                 android:textSize="16dp" />
 
@@ -104,7 +104,7 @@
                 android:id="@+id/caloriesText"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.2"
                 android:gravity="center_vertical"
                 android:text="Calories"
                 android:textSize="16sp" />
@@ -113,7 +113,7 @@
                 android:id="@+id/editCaloriesText"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
-                android:layout_weight="4"
+                android:layout_weight="4.2"
                 android:ems="10"
                 android:hint="e.g. 100"
                 android:inputType="number" />
@@ -122,7 +122,7 @@
                 android:id="@+id/caloriesUnitText"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.89"
+                android:layout_weight="0.75"
                 android:gravity="center_vertical"
                 android:text="cal"
                 android:textSize="16sp" />
