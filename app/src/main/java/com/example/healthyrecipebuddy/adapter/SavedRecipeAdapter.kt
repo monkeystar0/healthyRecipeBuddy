@@ -17,7 +17,7 @@ import com.example.healthyrecipebuddy.util.RecipeDetailsDialogFragment
 class SavedRecipeAdapter (private val fragmentManager: FragmentManager,
                           private val onDeleteClickListener:(SavedRecipe) -> Unit
 ) : ListAdapter<SavedRecipe, SavedRecipeAdapter.SavedRecipeViewHolder>(DIFF_CALLBACK) {
-    // ... (Your existing code)
+
 // 1. View Holder Creation
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SavedRecipeViewHolder {
         val binding = SavedRecipeItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -66,14 +66,6 @@ class SavedRecipeAdapter (private val fragmentManager: FragmentManager,
                     onDeleteClickListener(clickedRecipe)
                 }
             }
-        }
-
-        fun showDeleteButton() {
-            binding.deleteButton.visibility = View.VISIBLE
-        }
-
-        fun hideDeleteButton() {
-            binding.deleteButton.visibility = View.GONE
         }
 
         fun bind(item: SavedRecipe) {
