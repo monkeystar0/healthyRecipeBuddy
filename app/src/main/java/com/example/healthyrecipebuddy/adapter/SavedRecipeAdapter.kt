@@ -14,7 +14,8 @@ import com.example.healthyrecipebuddy.entity.SavedRecipe
 import com.example.healthyrecipebuddy.util.RecipeDetailsDialogFragment
 
 // In your RecyclerView.Adapter (if using ListAdapter)
-class SavedRecipeAdapter (private val fragmentManager: FragmentManager
+class SavedRecipeAdapter (private val fragmentManager: FragmentManager,
+                          private val onDeleteClickListener:(SavedRecipe) -> Unit
 ) : ListAdapter<SavedRecipe, SavedRecipeAdapter.SavedRecipeViewHolder>(DIFF_CALLBACK) {
     // ... (Your existing code)
 // 1. View Holder Creation
@@ -42,16 +43,37 @@ class SavedRecipeAdapter (private val fragmentManager: FragmentManager
         }
     }
 
-    inner class SavedRecipeViewHolder(private val binding: SavedRecipeItemBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class SavedRecipeViewHolder(private val binding: SavedRecipeItemBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val clickedRecipe = getItem(position)
-                    val dialog = RecipeDetailsDialogFragment.newInstance(clickedRecipe.name, clickedRecipe.text)
-                    dialog.show(fragmentManager, "recipeDetailsDialog") // Use the passed fragmentManager
+                    val dialog = RecipeDetailsDialogFragment.newInstance(
+                        clickedRecipe.name,
+                        clickedRecipe.text
+                    )
+                    dialog.show(
+                        fragmentManager,
+                        "recipeDetailsDialog"
+                    ) // Use the passed fragmentManager
                 }
             }
+            binding.deleteButton.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val clickedRecipe = getItem(position)
+                    onDeleteClickListener(clickedRecipe)
+                }
+            }
+        }
+
+        fun showDeleteButton() {
+            binding.deleteButton.visibility = View.VISIBLE
+        }
+
+        fun hideDeleteButton() {
+            binding.deleteButton.visibility = View.GONE
         }
 
         fun bind(item: SavedRecipe) {
@@ -59,6 +81,6 @@ class SavedRecipeAdapter (private val fragmentManager: FragmentManager
             binding.menuNameText.text = item.name
             binding.DateTimeText.text = dateDisplayText
         }
-    }
 
+    }
 }

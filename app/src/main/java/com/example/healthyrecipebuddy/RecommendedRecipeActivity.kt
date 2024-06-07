@@ -132,7 +132,7 @@ class RecommendedRecipeActivity: AppCompatActivity() {
         }
 
         binding.regenBtn.setOnClickListener {
-            prompt = "recommend the healthy recipe for a meal based on  the user's information (make sure that the new recipe won't be the same with the previous recipe.), the BMI and body fat percentage from the following information: gender=$gender, age= $age, bmi= $bmiValue, bodyFat= $bodyFatValue . Eaten food today: $eatenFoods. Total intake calories today: $totalCalories cal, target calories: $caloriesNeededText Cal. Please return in format: (briefly explain why recommend this recipe)<new line> Menu name: (name of recipe)<new line> ingredients: (list of ingredients)<new line> steps: (list of steps)<new line> Tips: (list of tips), using emoticons for friendly messages."
+            prompt = "recommend the new healthy recipe for a meal(make sure that the new recipe won't be the same with the previous recipe) based on  the user's information, the BMI and body fat percentage from the following information: gender=$gender, age= $age, bmi= $bmiValue, bodyFat= $bodyFatValue . Eaten food today: $eatenFoods. Total intake calories today: $totalCalories cal, target calories: $caloriesNeededText Cal. Please return in format: (briefly explain why recommend this recipe)<new line> Menu name: (name of recipe)<new line> ingredients: (list of ingredients)<new line> steps: (list of steps)<new line> Tips: (list of tips), using emoticons for friendly messages."
             mainViewModel.sendPrompt(prompt)
         }
 
