@@ -1,19 +1,16 @@
 package com.example.healthyrecipebuddy.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.healthyrecipebuddy.R
 import com.example.healthyrecipebuddy.databinding.FoodLogItemBinding
 import com.example.healthyrecipebuddy.entity.FoodLog
 
 // In your RecyclerView.Adapter (if using ListAdapter)
 class FoodLogAdapter : ListAdapter<FoodLog, FoodLogAdapter.FoodLogViewHolder>(DIFF_CALLBACK) {
-    // ... (Your existing code)
+
 // 1. View Holder Creation
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodLogViewHolder {
         val binding = FoodLogItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
