@@ -105,9 +105,9 @@ class FoodLogActivity: AppCompatActivity(){
         val todayDate = formatter.parse(currentDate.toString())
         val sqlDate = Date(todayDate?.time ?: java.util.Date().time)
         val time = Time(System.currentTimeMillis())
+        // Create a new FoodLog object
         val foodLog = FoodLog(foodName = menuName, calories = calories, date = sqlDate, time = time, foodType = foodType, description = description)
         CoroutineScope(Dispatchers.IO).launch {
-
             foodLogDatabase.foodLogDao().insertFoodLog(foodLog)
             withContext(Dispatchers.Main) {
                 clearInputFields()

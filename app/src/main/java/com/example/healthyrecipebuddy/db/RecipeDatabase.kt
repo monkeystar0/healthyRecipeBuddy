@@ -3,6 +3,7 @@ package com.example.healthyrecipebuddy.db
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Database
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -22,6 +23,9 @@ interface SavedRecipeDao {
 
     @Query("DELETE FROM saved_recipe")
     suspend fun deleteAllSavedRecipes()
+
+    @Delete
+    suspend fun deleteSavedRecipe(savedRecipe:SavedRecipe)
 
 }
 

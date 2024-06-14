@@ -1,22 +1,21 @@
 package com.example.healthyrecipebuddy.adapter
 
-import android.app.Activity
+
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.healthyrecipebuddy.databinding.SavedRecipeItemBinding
-import com.example.healthyrecipebuddy.entity.FoodLog
 import com.example.healthyrecipebuddy.entity.SavedRecipe
 import com.example.healthyrecipebuddy.util.RecipeDetailsDialogFragment
 
 // In your RecyclerView.Adapter (if using ListAdapter)
-class SavedRecipeAdapter (private val fragmentManager: FragmentManager
+class SavedRecipeAdapter (private val fragmentManager: FragmentManager,
+                          private val onDeleteClickListener:(SavedRecipe) -> Unit
 ) : ListAdapter<SavedRecipe, SavedRecipeAdapter.SavedRecipeViewHolder>(DIFF_CALLBACK) {
-    // ... (Your existing code)
+
 // 1. View Holder Creation
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SavedRecipeViewHolder {
         val binding = SavedRecipeItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -42,14 +41,27 @@ class SavedRecipeAdapter (private val fragmentManager: FragmentManager
         }
     }
 
-    inner class SavedRecipeViewHolder(private val binding: SavedRecipeItemBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class SavedRecipeViewHolder(private val binding: SavedRecipeItemBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val clickedRecipe = getItem(position)
-                    val dialog = RecipeDetailsDialogFragment.newInstance(clickedRecipe.name, clickedRecipe.text)
-                    dialog.show(fragmentManager, "recipeDetailsDialog") // Use the passed fragmentManager
+                    val dialog = RecipeDetailsDialogFragment.newInstance(
+                        clickedRecipe.name,
+                        clickedRecipe.text
+                    )
+                    dialog.show(
+                        fragmentManager,
+                        "recipeDetailsDialog"
+                    ) // Use the passed fragmentManager
+                }
+            }
+            binding.deleteButton.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val clickedRecipe = getItem(position)
+                    onDeleteClickListener(clickedRecipe)
                 }
             }
         }
@@ -59,6 +71,6 @@ class SavedRecipeAdapter (private val fragmentManager: FragmentManager
             binding.menuNameText.text = item.name
             binding.DateTimeText.text = dateDisplayText
         }
-    }
 
+    }
 }
