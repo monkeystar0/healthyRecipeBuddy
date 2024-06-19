@@ -70,7 +70,7 @@ class MeasurementTool {
                 in 0.10f..0.1399f -> "#FFFA3535"
                 in 0.14f..0.2099f -> "#FFEFFA63"
                 in 0.21f..0.2499f -> "#B8FF8B35"
-                in 0.25f..0.3199f -> "#B8FF8B35"
+                in 0.25f..0.3199f -> "#86fa63"
                 in 0.32f..1.0f -> "#FFFA3535"
                 else -> "Unknown"
             }
@@ -78,7 +78,7 @@ class MeasurementTool {
                 in 0.02f..0.0599f -> "#FFFA3535"
                 in 0.06f..0.1399f -> "#FFEFFA63"
                 in 0.14f..0.1799f -> "#B8FF8B35"
-                in 0.18f..0.2499f -> "#B8FF8B35"
+                in 0.18f..0.2499f -> "#86fa63"
                 in 0.25f..1.0f -> "#FFFA3535"
                 else -> "Unknown"
             }

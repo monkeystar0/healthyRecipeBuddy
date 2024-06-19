@@ -177,7 +177,7 @@ class MainActivity : AppCompatActivity() {
         val caloriesNeededText = "%.2f".format(caloriesNeeded)
         binding.caloriesNeedText.text = "Calories needed: $caloriesNeededText cal"
 
-        val prompt = "provide the friendly greeting message with emoticons and 60 words of briefly recommendation for healthy eating based on the BMI and body fat percentage of the user's health from the following information: gender=$gender, age= $age, bmi= $bmiValue, bodyFat= $bodyFatValue"
+        val prompt = "provide the friendly greeting message with emoticons and 55 words of briefly recommendation for healthy eating based on the BMI and body fat percentage of the user's health from the following information: gender=$gender, age= $age, bmi= $bmiValue, bodyFat= $bodyFatValue"
         if(initialSetup){
             mainViewModel.sendPrompt(prompt)
             initialSetup = false
