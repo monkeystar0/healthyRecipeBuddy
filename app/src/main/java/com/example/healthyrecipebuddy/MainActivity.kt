@@ -74,6 +74,7 @@ class MainActivity : AppCompatActivity() {
                     is UiState.Success -> {
                         // Display the generated text
                         binding.buddyRecommendTxt.text = uiState.response
+                        //binding.buddyRecommendTxt.text = "It's great to see you're in a healthy weight range with a BMI of 22.92 and body fat of 18.44%.  \uD83D\uDCAA Keep up the fantastic work! To stay in tip-top shape, how about adding some extra veggies and fruits to your meals? \uD83C\uDF4E\uD83E\uDD66  Small changes make a big difference!  \uD83D\uDE0AIt's great to see you're in a healthy weight range with a BMI of 22.92 and body fat of 18.44%.  \uD83D\uDCAA Keep up the fantastic work! To stay in tip-top shape, how about adding some extra veggies and fruits to your meals? \uD83C\uDF4E\uD83E\uDD66  Small changes make a big difference!  \uD83D\uDE0AIt's great to see you're in a healthy weight range with a BMI of 22.92 and body fat of 18.44%.  \uD83D\uDCAA Keep up the fantastic work! To stay in tip-top shape, how about adding some extra veggies and fruits to your meals? \uD83C\uDF4E\uD83E\uDD66  Small changes make a big difference!  \uD83D\uDE0AIt's great to see you're in a healthy weight range with a BMI of 22.92 and body fat of 18.44%.  \uD83D\uDCAA Keep up the fantastic work! To stay in tip-top shape, how about adding some extra veggies and fruits to your meals? \uD83C\uDF4E\uD83E\uDD66  Small changes make a big difference!  \uD83D\uDE0A"
                         hideLoadingIndicator()
                     }
                     is UiState.Error -> {
@@ -176,7 +177,7 @@ class MainActivity : AppCompatActivity() {
         val caloriesNeededText = "%.2f".format(caloriesNeeded)
         binding.caloriesNeedText.text = "Calories needed: $caloriesNeededText cal"
 
-        val prompt = "provide the friendly greeting message with emoticons and a briefly recommendation for healthy eating based on the BMI and body fat percentage of the user's health from the following information: gender=$gender, age= $age, bmi= $bmiValue, bodyFat= $bodyFatValue"
+        val prompt = "provide the friendly greeting message with emoticons and 60 words of briefly recommendation for healthy eating based on the BMI and body fat percentage of the user's health from the following information: gender=$gender, age= $age, bmi= $bmiValue, bodyFat= $bodyFatValue"
         if(initialSetup){
             mainViewModel.sendPrompt(prompt)
             initialSetup = false
