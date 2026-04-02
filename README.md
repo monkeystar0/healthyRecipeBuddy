@@ -91,7 +91,7 @@ Key orchestration: `MainViewModel` holds Gemini calls and `UiState`; `Measuremen
 
 `MainViewModel` reads the value after `=`. **`secrets.properties` is gitignored**—do not commit real keys.
 
-If a key was ever committed, **rotate it** in [Google AI Studio](https://aistudio.google.com/apikey) and revoke the old one. History rewriting (e.g. `git filter-repo`) is optional; **key rotation is mandatory** for a public repo.
+**If a key was ever exposed (e.g. GitGuardian alert):** revoke it in [Google AI Studio](https://aistudio.google.com/apikey) or [Cloud Credentials](https://console.cloud.google.com/apis/credentials) and use a new key locally only. This repo’s Git history was scrubbed of `secrets.properties`; **revocation is still required** because the old value may have been copied. See [SECURITY.md](SECURITY.md) for details.
 
 ---
 
