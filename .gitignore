@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Gemini API key — never commit; copy secrets.properties.example
+app/src/main/res/raw/secrets.properties
