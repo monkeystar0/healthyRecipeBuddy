@@ -4,6 +4,10 @@
 
 Native Android app for **personalized nutrition tracking**, **goal setting**, and **AI-assisted healthy recipes**. It combines local persistence (Room, `SharedPreferences`), **TDEE-style calorie estimates** (weight, height, age, gender, activity level), and **Google Gemini** (`gemini-1.5-pro-latest`) for greetings and recipe text.
 
+## Download
+
+**[Healthy Recipe Buddy on Huawei AppGallery](https://appgallery.huawei.com/app/C111219819)**
+
 ## Screenshot
 
 Main dashboard: BMI and body fat cards, target metrics, Gemini greeting, **Menu** shortcuts (Profile, Target, Food Log, recipes), and the calorie donut (needed vs today’s intake).
